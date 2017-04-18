@@ -1,0 +1,146 @@
+<!-- === BEGIN HEADER === -->
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <!-- Title -->
+        <title>Neato Parking</title>
+        <!-- Meta -->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!-- Favicon -->
+        <link href="favicon.ico" rel="shortcut icon">
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.css" rel="stylesheet">
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="assets/css/animate.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/nexus.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/responsive.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/custom.css" rel="stylesheet">
+        <!-- Google Fonts-->
+        <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="body-bg">
+        <!-- Header -->
+            <div id="header">
+                <div class="container">
+                    <div class="row">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" title="">
+                                <h1>Name TBD</h1>
+                            </a>
+                        </div>
+                        <!-- End Logo -->
+                    </div>
+                </div>
+            </div>
+            <!-- End Header -->
+            <!-- Top Menu -->
+            <div id="hornav" class="bottom-border-shadow">
+                <div class="container no-padding border-bottom">
+                    <div class="row">
+                        <div class="no-padding">
+                            <div class="visible-lg">
+                                <ul id="hornavmenu" class="nav navbar-nav">
+                                    <li>
+                                        <a href="index.html" class="fa-home">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="index.html" class="fa-video-camera">Demo</a>
+                                    </li>
+                                    <li>
+                                        <a href="team.html" class="fa-users">Meet the Team</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-list.html" class="fa-comment active">Blog Posts</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/jovanduy/computer_vision_2017" class="fa-github ">Source Code</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Top Menu -->
+            <!-- === END HEADER === -->
+            <div id="content">
+                <div class="container background-white">
+                    <div class="row margin-vert-30">
+                        <!-- Main Column -->
+                        <div class="col-md-12">
+                            <div class="blog-post">
+                                <div class="blog-item-header">
+                                    <h2>
+                                        <a href="#">
+                                            Our Starting Point
+                                        </a>
+                                    </h2>
+                                    <!-- Date -->
+                                    <div class="blog-post-date">
+                                        <a href="#">8th Apr, 2017</a>
+                                    </div>
+                                    <!-- End Date -->
+                                </div>
+
+                                <div class="blog-item">
+                                    <div class="clearfix"></div>
+                                    <div class="blog-post-body row margin-top-15">
+                                        <article>
+                                            <p>  As we begin our final project, we’d like to give readers some insight into our goal for our final project, as well as our starting point. Our team developed the MVP for this project during the <a href="https://github.com/jovanduy/computer_vision_2017">Computer Vision project</a>  which we just completed. Now, in our final project, our goal is to build a system for autonomously parking a vehicle. Since our Computational Robotics class is centered around robotic vacuum cleaners called Neatos, the Neato will serve as our autonomous vehicle in this project. The parking system we envision works as follows: we press go, the Neato identifies an empty parking spot which it has permission to park in, and then it navigates into that spot and parks itself. </p>    
+                                            <p><b>1) Identifying an empty parking spot</b></p>
+                                            <p>This first step corresponds with the bulk of the work which we completed during our Computer Vision project. </p>
+                                            <p>Before we can determine whether a parking spot is empty or not, we must first identify that a space is, indeed, a parking spot. We do this using a <a href="http://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/hough_lines/hough_lines.html"> Hough Line Transform algorithm</a>. The image below shows the results of our computations. We applied an HSV filter to create a binary image that would reveal parking spot delineators. The image on the left corresponds with the results from our Hough Line Transform. Using the lines in this image, we determine the coordinates of the parking spot in 3D space relative to the Neato using the <a href="https://en.wikipedia.org/wiki/Pinhole_camera_model"> pinhole camera model</a>. </p>
+                                            <center><img class="margin-bottom-20" src="assets/img/blog/double_screen.png" alt="image1"></center>
+                                            <p>Before the Neato parks in a spot, it must first determine whether or not that spot is empty. The computations for determining whether or not the spot is empty are done via a <a href="http://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/canny_detector/canny_detector.html"> Canny edge detection algorithm</a>. If the parking spot is empty, the Canny edge detection algorithm detects fewer than 150 edges in the image. If there is another Neato currently occupying the parking spot, then Canny edge detection detects more than 300 lines. </p>
+                                            <center><img class="margin-bottom-20" src="assets/img/blog/edge.png" alt="image1"></center>
+                                            <center><p><b>Edges detected via Canny Edge Detection in occupied vs. unoccupied  parking spots</b></p></center>
+                                            <p>You may have noted above that we aren’t just looking for empty parking spots for the Neato to park in, but empty parking spots which the Neato has permission to park in. This extension will be a new feature that we develop over the course of this final project. Building on the <a href="https://github.com/youralien/sign_follower"> Sign Follower</a> project we completed earlier this semester, we plan on integrating sign detection behavior with our parking system. This will mean that a Neato obeys parking restrictions such as handicapped parking, no parking during restricted hours, and so on. </p>
+                                            <p><b>2. Parking</b></p>
+                                            <p>This is the part of our system that needs more work. In theory, Neatos have a range of motion that should make the parking problem trivial - they can rotate in place, and have the ability to move forward, backwards, and from side to side. In order to mimic the behavior of a vehicle, though, we limit the Neato’s motion to those which are available to a car. In the Computer Vision project, we progressed far enough to successfully park a vehicle. The following diagram conveys the FSM which we developed for aligning and then parking the Neato. </p>
+                                            <center><img class="margin-bottom-20" src="assets/img/blog/fsm.png" style="width: 60%;height: auto;" alt="image1"></center>
+                                            <p>As you can see in this <a href="https://www.youtube.com/watch?v=HQJLs_dqFwY"> video</a> though, the path which the Neato takes to align and then park involves a lot of guessing, checking, and then correcting. Our intention in this final project is to develop a more sophisticated path planning algorithm that will allow the Neato to park more efficiently and accurately.  </p>
+                                            <p>In addition to optimizing our path planning, we intend to open up the possibility for more parking modes during this phase of the project. We plan on allowing for parallel parking and backwards parking in addition to the already supported forward parking mode. </p>
+                                            <p>We’re looking forward to sharing progress updates on this blog over the course of this project. Thanks for reading!</p>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Blog Post -->
+                        </div>
+                        <!-- End Main Column -->
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- === END CONTENT === -->
+            
+            <!-- JS -->
+            <script type="text/javascript" src="assets/js/jquery.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="assets/js/scripts.js"></script>
+            <!-- Isotope - Portfolio Sorting -->
+            <script type="text/javascript" src="assets/js/jquery.isotope.js" type="text/javascript"></script>
+            <!-- Mobile Menu - Slicknav -->
+            <script type="text/javascript" src="assets/js/jquery.slicknav.js" type="text/javascript"></script>
+            <!-- Animate on Scroll-->
+            <script type="text/javascript" src="assets/js/jquery.visible.js" charset="utf-8"></script>
+            <!-- Sticky Div -->
+            <script type="text/javascript" src="assets/js/jquery.sticky.js" charset="utf-8"></script>
+            <!-- Slimbox2-->
+            <script type="text/javascript" src="assets/js/slimbox2.js" charset="utf-8"></script>
+            <!-- Modernizr -->
+            <script src="assets/js/modernizr.custom.js" type="text/javascript"></script>
+            <!-- End JS -->
+    </body>
+</html>
+<!-- === END FOOTER === -->
