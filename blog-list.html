@@ -28,14 +28,14 @@
     </head>
     <body>
         <div id="body-bg">
-        <!-- Header -->
+            <!-- Header -->
             <div id="header">
                 <div class="container">
                     <div class="row">
                         <!-- Logo -->
                         <div class="logo">
                             <a href="index.html" title="">
-                                <h1>Name TBD</h1>
+                                <img src="assets/img/logo.png" alt="Logo" />
                             </a>
                         </div>
                         <!-- End Logo -->
@@ -51,7 +51,7 @@
                             <div class="visible-lg">
                                 <ul id="hornavmenu" class="nav navbar-nav">
                                     <li>
-                                        <a href="index.html" class="fa-home">About</a>
+                                        <a href="home.html" class="fa-home active">About</a>
                                     </li>
                                     <li>
                                         <a href="demo.html" class="fa-video-camera">Demo</a>
@@ -60,7 +60,7 @@
                                         <a href="team.html" class="fa-users">Meet the Team</a>
                                     </li>
                                     <li>
-                                        <a href="blog-list.html" class="fa-comment active">Blog Posts</a>
+                                        <a href="blog-list.html" class="fa-comment ">Blog Posts</a>
                                     </li>
                                     <li>
                                         <a href="http://github.com/jovanduy/AutonomousParking" class="fa-github ">Source Code</a>
@@ -191,6 +191,47 @@
                                             <p>Today, we wrapped up the first phase of our project. After assessing our learning goals, we decided that we wanted to move in a different direction in the second half of our project. In this blog post, we’ll outline the progress we’ve made so far and the steps we took to get there. We’ll also give some insight into our decision to shift gears (pun intended) in this latter half of the project, and explain what our plan is moving forward.</p>
                                             <!-- Read More -->
                                             <a href="blog3.html" class="btn btn-primary">
+                                                Read More
+                                                <i class="icon-chevron-right readmore-icon"></i>
+                                            </a>
+                                            <!-- End Read More -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Blog Item Body -->
+                            </div>
+                            <!-- End Blog Item -->
+
+                             <!-- Blog Post -->
+                            <div class="blog-post padding-bottom-20">
+                                <!-- Blog Item Header -->
+                                <div class="blog-item-header">
+                                    <!-- Title -->
+                                    <h2>
+                                        <a href="blog4.html">
+                                             Implementation of Parking Guidelines</a>
+                                    </h2>
+                                    <div class="clearfix"></div>
+                                    <!-- End Title -->
+                                    <!-- Date -->
+                                    <div class="blog-post-date">
+                                        <a href="#">2nd May, 2017</a>
+                                    </div>
+                                    <!-- End Date -->
+                                </div>
+                                <!-- End Blog Item Header -->
+
+                                <!-- Blog Item Body -->
+                                <div class="blog">
+                                    <div class="clearfix"></div>
+                                    <div class="blog-post-body row margin-top-15">
+                                        <div class="col-md-5">
+                                            <img class="margin-bottom-20" src="assets/img/blog/alignment.png" alt="thumb1">
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p>This week, we completed our implementation of the parking guideline feature. This feature was intended to complete our suite of parking assist features, adding a manual assistance option onto our parallel and perpendicular autonomous parking modes. Inspired by the parking guidelines found in cars’ rear view camera images,  we implemented a computer vision system that displays the Neato’s projected path while the user is navigating manually via teleop twist.</p>
+                                            <!-- Read More -->
+                                            <a href="blog4.html" class="btn btn-primary">
                                                 Read More
                                                 <i class="icon-chevron-right readmore-icon"></i>
                                             </a>

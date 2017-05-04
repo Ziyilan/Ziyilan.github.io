@@ -1,0 +1,154 @@
+<!-- === BEGIN HEADER === -->
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <!-- Title -->
+        <title>Neato Parking</title>
+        <!-- Meta -->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!-- Favicon -->
+        <link href="favicon.ico" rel="shortcut icon">
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.css" rel="stylesheet">
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="assets/css/animate.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/nexus.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/responsive.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/custom.css" rel="stylesheet">
+        <!-- Google Fonts-->
+        <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div id="body-bg">
+            <!-- Header -->
+            <div id="header">
+                <div class="container">
+                    <div class="row">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="index.html" title="">
+                                <img src="assets/img/logo.png" alt="Logo" />
+                            </a>
+                        </div>
+                        <!-- End Logo -->
+                    </div>
+                </div>
+            </div>
+            <!-- End Header -->
+            <!-- Top Menu -->
+            <div id="hornav" class="bottom-border-shadow">
+                <div class="container no-padding border-bottom">
+                    <div class="row">
+                        <div class="no-padding">
+                            <div class="visible-lg">
+                                <ul id="hornavmenu" class="nav navbar-nav">
+                                    <li>
+                                        <a href="home.html" class="fa-home active">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="demo.html" class="fa-video-camera">Demo</a>
+                                    </li>
+                                    <li>
+                                        <a href="team.html" class="fa-users">Meet the Team</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-list.html" class="fa-comment ">Blog Posts</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://github.com/jovanduy/AutonomousParking" class="fa-github ">Source Code</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Top Menu -->
+            <!-- === END HEADER === -->
+            <div id="content">
+                <div class="container background-white">
+                    <div class="row margin-vert-30">
+                        <!-- Main Column -->
+                        <div class="col-md-12">
+                            <div class="blog-post">
+                                <div class="blog-item-header">
+                                    <h2>
+                                        <a href="#">
+                                            Implementation of Parking Guidelines
+                                        </a>
+                                    </h2>
+                                    <!-- Date -->
+                                    <div class="blog-post-date">
+                                        <a href="#">2nd May, 2017</a>
+                                    </div>
+                                    <!-- End Date -->
+                                </div>
+
+                                <div class="blog-item">
+                                    <div class="clearfix"></div>
+                                    <div class="blog-post-body row margin-top-15">
+                                    <br>
+                                        <article>
+                                        <p>This week, we completed our implementation of the parking guideline feature. This feature was intended to complete our suite of parking assist features, adding a manual assistance option onto our parallel and perpendicular autonomous parking modes. Inspired by the parking guidelines found in cars’ rear view camera images,  we implemented a computer vision system that displays the Neato’s projected path while the user is navigating manually via teleop twist. </p>
+                                        <p>The implementation of our parking guidelines feature can be broken up into the following steps: first, we drew an arc that represented the Neato’s projected path. Next, we warped and transformed the arc in order to fit it into the dimensions of the plane represented in the image. Then, we overlaid this transformed arc over the camera image from the Neato. Finally, using the algorithms we developed during our CV project, we turned the arcs green to indicate that it was properly aligned with the parking spot. </p>
+                                        <h3>Drawing the Neato’s Projected Path</h3>
+                                        <p>Our first step was drawing a top-down image of the Neato’s projected path. We did this with OpenCV’s ellipse drawing function. We began by drawing one arc which represented the path that the Neato would travel. Since we wanted to show the projected path of the neato’s “tire tracks” as cars typically do, we duplicated this arc and shifted it a fixed distance left and right of the center point  in the x direction to represent the paths of the left and right wheels.</p>
+                                        <p>The arc we drew is roughly a quarter of an ellipse. The radius of our arc is equal to velocity/omega. The center of the arc is a function of the radius, as are the axes. We adjusted directionality appropriately based on omega. This is done by manipulating the start and end angles of the arc.</p>
+                                        <p>At this point, we’ve drawn an ellipse that corresponds with the Neato’s projected path. When we change the velocity and omega of the Neato using teleop twist, we can see that the path responds appropriately and as expected. One problem remains, though, which is that the path we’ve got at this point is a top-down representation of the Neato’s projected arc.</p>
+                                        <h3>Warping/Transforming the Arc</h3>
+                                        <p>In this step, we took the top-down arc we drew in the previous step and warp it to fit the plane of the ground on the Neato’s camera footage. To do so, we made use of OpenCV’s built in getPerspectiveTransform and warpPerspective functions. By making use of these functions, we can transform an arc like the one at left onto a plane like the arc at right.</p>
+                                        <center><img class="margin-bottom-20" src="assets/img/blog/projected.png" style="width: 60%;height: auto;" alt="image1"></center>
+                                        <p>The warpPerspective function required us to specify the coordinate locations to which we wanted to match each of the corners of our unwarped arc image. We chose coordinates which corresponded with the bottom corners of our camera image, and aligned our top corners with the “horizon line,” also known as the line where the ground meets the wall. Note that this implementation detail corresponds with a flaw in our system: as we get closer to the the wall, we do not make any adjustments for changes in the location of the horizon line. </p>
+                                        <h3>Overlaying the Arc</h3>
+                                        <p>Our warped arc is drawn on a transparent background. Once we have our warped image, we overlay this image on top of the Neato’s camera footage. We did so by following <a href="http://docs.opencv.org/trunk/d0/d86/tutorial_py_image_arithmetics.html"> this tutorial</a>. This process involves performing bitwise operations on the image to create masks, extract any areas with color, and then lay the extracted areas onto the “region of interest” we define on our original camera footage.   As stated above, the region of interest is the plane that corresponds with the ground in our camera footage.</p>
+                                        <h3>Checking for Alignment</h3>
+                                        <p>In our CV project, we developed an HSV filter for the Neato’s camera footage that filtered out parking spot delineators. This filter resulted in images like the binary image below. As you can see, the white points correspond with the lines that delineate an available parking spot. </p>
+                                        <center><img class="margin-bottom-20" src="assets/img/blog/double_screen.png" style="width: 60%;height: auto;" alt="image1"></center>
+                                        <p>Using this binary image, we applied OpenCV’s Hough Line Transform Algorithm to detect the lines in the image. This allowed us to determine the endpoints of each of our parking spots. The lines which result from this step can be seen in the image above on the left. </p>
+                                        <p>As our final step, we compared the endpoints of our projected path to the endpoints of the parking spot we detected using the steps above. As long as the pixel coordinates of the projected path’s endpoints fell within the pixel coordinates of the actual parking spot’s endpoints, the Neato is aligned. When the Neato is aligned, we change the color of the Neato’s parking guidelines to green to indicate we are ready to move forward into the spot and park. This color transformation upon alignment can be seen in the images below. </p>
+                                        <center><img class="margin-bottom-20" src="assets/img/blog/alignment.png" style="width: 60%;height: auto;" alt="image1"></center>
+                                        <h3>Conclusion</h3>
+                                        <p>If you’d like to see a demo of our parking guidelines in action, take a look at <a href="https://www.youtube.com/watch?v=JIo2ENH5b_I">this video</a>. Note that the lines turn green when the Neato detects that it is properly aligned with the spot. At this point, we can simply drive forward into the spot and park successfully.</p>
+                                        <p>This concludes our final project. As a summary, we’ve implemented a full suite of parking assist features. We began by implementing two different modes of autonomous parking. Finally, we added a parking guideline system that provides guidance while operators manually navigate the Neato via teleop twist. This suite of features is inspired by the capabilities available in modern cars, and gives drivers the ability to park their “cars” safely and easily. </p>
+                                        <p>Again, thank you for reading our blog! We welcome any feedback, and invite you to explore the rest of our website. We especially encourage you to take a look at the demo page for videos of each of our features in action!</p>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Blog Post -->
+                        </div>
+                        <!-- End Main Column -->
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- === END CONTENT === -->
+            
+            <!-- JS -->
+            <script type="text/javascript" src="assets/js/jquery.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="assets/js/scripts.js"></script>
+            <!-- Isotope - Portfolio Sorting -->
+            <script type="text/javascript" src="assets/js/jquery.isotope.js" type="text/javascript"></script>
+            <!-- Mobile Menu - Slicknav -->
+            <script type="text/javascript" src="assets/js/jquery.slicknav.js" type="text/javascript"></script>
+            <!-- Animate on Scroll-->
+            <script type="text/javascript" src="assets/js/jquery.visible.js" charset="utf-8"></script>
+            <!-- Sticky Div -->
+            <script type="text/javascript" src="assets/js/jquery.sticky.js" charset="utf-8"></script>
+            <!-- Slimbox2-->
+            <script type="text/javascript" src="assets/js/slimbox2.js" charset="utf-8"></script>
+            <!-- Modernizr -->
+            <script src="assets/js/modernizr.custom.js" type="text/javascript"></script>
+            <!-- End JS -->
+    </body>
+</html>
+<!-- === END FOOTER === -->
